@@ -27,17 +27,21 @@ function onImgClick(e) {
   const instance = basicLightbox.create(
     `
       <img src="${e.target.dataset.source}" width="800" height="600">
-    `
+    `,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", onCloseItemByEscape);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", onCloseItemByEscape);
+      },
+    }
   );
-
   instance.show();
-
-  document.addEventListener("keydown", onCloseItemByEscape);
 
   function onCloseItemByEscape(e) {
     if (e.code === "Escape") {
       instance.close();
-      document.removeEventListener("keydown", onCloseItemByEscape);
     }
   }
 }
